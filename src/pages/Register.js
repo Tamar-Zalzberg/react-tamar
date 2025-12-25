@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
-
 const Register = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'customer' });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
-
     const navigate = useNavigate();
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
         setLoading(true);
-
         try {
             await axiosInstance.post('/auth/register', formData);
             setSuccess('ההרשמה בוצעה בהצלחה! עובר להתחברות...');
@@ -46,7 +42,6 @@ const Register = () => {
                         required
                     />
                 </div>
-
                 <div style={styles.inputGroup}>
                     <input
                         type="email"
@@ -57,7 +52,6 @@ const Register = () => {
                         required
                     />
                 </div>
-
                 <div style={styles.inputGroup}>
                     <input
                         type="password"
@@ -68,7 +62,6 @@ const Register = () => {
                         required
                     />
                 </div>
-
                 <button
                     type="submit"
                     style={loading ? { ...styles.button, opacity: 0.7 } : styles.button}

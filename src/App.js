@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-// הוסר ה-Socket כדי למנוע קריסות מול השרת הקיים
-
-// ייבוא הדפים
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -13,9 +10,6 @@ import TicketDetails from './pages/TicketDetails';
 import AdminSettings from './pages/AdminSettings';
 import AdminUsers from './pages/AdminUsers';
 
-/**
- * קומפוננטה להגנה על נתיבים (Route Guard)
- */
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
@@ -44,7 +38,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* נתיבים ציבוריים */}
         <Route
           path="/login"
           element={!isAuthenticated ? <Login /> : <Navigate replace to="/dashboard" />}
@@ -54,7 +47,6 @@ function App() {
           element={!isAuthenticated ? <Register /> : <Navigate replace to="/dashboard" />}
         />
 
-        {/* נתיבים מוגנים (Admin, Agent, Customer) */}
         <Route
           path="/dashboard"
           element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
@@ -68,7 +60,6 @@ function App() {
           element={<ProtectedRoute><TicketDetails /></ProtectedRoute>}
         />
 
-        {/* נתיב לפתיחת טיקט - ללקוח בלבד */}
         <Route
           path="/create-ticket"
           element={
@@ -78,7 +69,6 @@ function App() {
           }
         />
 
-        {/* נתיבים למנהל בלבד */}
         <Route
           path="/admin/settings"
           element={
@@ -96,7 +86,6 @@ function App() {
           }
         />
 
-        {/* ניתוב ברירת מחדל */}
         <Route
           path="/"
           element={<Navigate replace to={isAuthenticated ? "/dashboard" : "/login"} />}
