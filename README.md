@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -67,4 +67,107 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+# מערכת Helpdesk לניהול קריאות שירות
+
+מערכת מלאה לניהול פניות ותקלות (Ticketing System) שנכתבה ב-React.
+המערכת מאפשרת ללקוחות לפתוח קריאות, לסוכנים לטפל בהן, ולמנהלים לקבל תמונת מצב מלאה ונתונים סטטיסטיים.
+
+---
+
+## 🚀 הוראות התקנה והרצה
+
+### דרישות קדם
+* **Node.js**: גרסה 14 ומעלה.
+* **Backend Server**: יש לוודא ששרת ה-API רץ ברקע על פורט **4000**.
+  (שרת ה-API זמין בכתובת: https://github.com/sarataber/helpdesk-api)
+
+### צעדים להרצה
+1. פתח את הטרמינל בתיקיית הפרויקט.
+2. התקן את הספריות הנדרשות:
+   ```bash
+   npm install
+הרץ את הפרויקט:
+
+Bash
+
+npm start
+פתח את הדפדפן בכתובת: http://localhost:3000
+
+👥 תפקידים והרשאות (Role-Based Access Control)
+המערכת מנהלת גישה חכמה המבוססת על תפקיד המשתמש (JWT Claims):
+
+1. לקוח (Customer)
+הרשמה עצמית: יכול ליצור חשבון חדש במערכת.
+
+פתיחת קריאות: טופס ייעודי לפתיחת קריאה עם נושא, דחיפות ותיאור.
+
+צפייה בפרטי: רואה אך ורק את הקריאות שהוא פתח.
+
+מעקב: יכול להיכנס לפרטי קריאה ולראות סטטוס ותגובות.
+
+תגובות: יכול להוסיף תגובות לקריאות פתוחות.
+
+2. סוכן תמיכה (Agent)
+ניהול משימות: רואה אך ורק את הקריאות שהוקצו לטיפולו (או קריאות ללא שיוך, בהתאם להגדרה).
+
+עדכון סטטוס: יכול לשנות סטטוס קריאה (Open -> In Progress -> Resolved).
+
+תקשורת: יכול להוסיף תגובות פנימיות או תשובות ללקוח בתוך הטיקט.
+
+3. מנהל מערכת (Admin)
+שליטה מלאה: גישה לכל הקריאות במערכת ללא סינון.
+
+ניהול משתמשים:
+
+צפייה ברשימת לקוחות וסוכנים.
+
+הוספת סוכנים ומנהלים חדשים למערכת.
+
+ניהול הגדרות: הוספת סטטוסים ורמות דחיפות דינמית.
+
+דאשבורד ניהולי (Analytics):
+
+צפייה בנתוני SLA (חריגות זמנים).
+
+גרפים וסטטיסטיקות ביצועי סוכנים.
+
+ייצוא דוחות ל-PDF ול-CSV.
+
+הקצאת משימות: יכול לשייך קריאות לסוכנים ספציפיים.
+
+🛠 טכנולוגיות וספריות
+הפרויקט נבנה באמצעות הטכנולוגיות המודרניות ביותר בעולם ה-React:
+
+React 18: שימוש ב-Functional Components ו-Hooks בלבד (useState, useEffect, useMemo).
+
+Redux Toolkit: ניהול State גלובלי מתקדם (Store, Slices) לניהול משתמשים (authSlice) וטיקטים (ticketSlice).
+
+React Router DOM v6: ניהול ניווט צד-לקוח, כולל Protected Routes למניעת גישה לדפים ללא הרשאה מתאימה.
+
+Axios + Interceptors: ניהול קריאות לשרת עם הזרקה אוטומטית של טוקן ה-JWT בכל בקשה (axiosInstance).
+
+jsPDF / jspdf-autotable: מחולל דוחות PDF בצד הלקוח (עבור דוחות מנהל).
+
+CSS Modules / Inline Styles: עיצוב רספונסיבי ונקי.
+
+📂 מבנה הפרויקט
+src/
+├── api/              # הגדרות Axios וכתובת שרת
+├── components/       # רכיבים לשימוש חוזר (אם יש)
+├── pages/            # מסכי המערכת המרכזיים
+│   ├── Login.js      # התחברות
+│   ├── Dashboard.js  # לוח בקרה ראשי
+│   ├── TicketList.js # טבלאות סינון ומיון מתקדמות
+│   ├── TicketDetails.js # מסך טיפול בקריאה
+│   └── Admin...      # מסכי ניהול
+├── store/            # ניהול Redux (Slices)
+└── App.js            # הגדרת ראוטים ו-Guards
+✨ פיצ'רים מיוחדים
+סינון חכם: מנגנון סינון כפול (Client-side) ב-TicketList המבטיח שלקוח לא יראה מידע של אחרים.
+
+התראות: אינדיקציה ויזואלית לקריאות שחורגות מ-48 שעות ללא מענה.
+
+ייצוא נתונים: המנהל יכול להוריד נתוני ביצועים בלחיצת כפתור.
+
+ממשק אדפטיבי: התפריטים והכפתורים משתנים אוטומטית לפי תפקיד המשתמש המחובר.
